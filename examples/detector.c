@@ -135,7 +135,7 @@ void train_detector(char *datacfg, char *cfgfile, char *weightfile, int *gpus, i
             sprintf(buff, "%s/%s.backup", backup_directory, base);
             save_weights(net, buff);
         }
-        if(i%10000==0 || (i < 1000 && i%100 == 0)){
+        if(i%1000==0 || (i < 1000 && i%100 == 0)){
 #ifdef GPU
             if(ngpus != 1) sync_nets(nets, ngpus, 0);
 #endif
@@ -493,7 +493,7 @@ void validate_detector_recall(char *cfgfile, char *weightfile)
     fprintf(stderr, "Learning Rate: %g, Momentum: %g, Decay: %g\n", net->learning_rate, net->momentum, net->decay);
     srand(time(0));
 
-    list *plist = get_paths("data/coco_val_5k.list");
+    list *plist = get_paths("data/test.txt");// A ajuster au besoin.
     char **paths = (char **)list_to_array(plist);
 
     layer l = net->layers[net->n-1];
@@ -507,11 +507,11 @@ void validate_detector_recall(char *cfgfile, char *weightfile)
     float iou_thresh = .5;
     float nms = .4;
 
-    int total = 0;
+    int total = 1;
     int correct = 0;
     int proposals = 0;
     float avg_iou = 0;
-
+  
     for(i = 0; i < m; ++i){
         char *path = paths[i];
         image orig = load_image_color(path, 0, 0);
@@ -545,7 +545,8 @@ void validate_detector_recall(char *cfgfile, char *weightfile)
                     best_iou = iou;
                 }
             }
-            avg_iou += best_iou;
+            if (best_iou <1.01){
+            avg_iou += best_iou;}
             if(best_iou > iou_thresh){
                 ++correct;
             }
@@ -556,6 +557,7 @@ void validate_detector_recall(char *cfgfile, char *weightfile)
         free_image(orig);
         free_image(sized);
     }
+    fprintf(stderr, "[CAUCHON][%s] mIOU:%.2f%%\tRecall:%.2f%%\tmRPs/Img: %.2f\n",weightfile, avg_iou*100/total, 100.*correct/total, (float)proposals/(i+1));
 }
 
 
