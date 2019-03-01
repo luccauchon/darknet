@@ -4,24 +4,24 @@
 # Use at your own risk. or don't, i don't care
 
 import sys, os
-sys.path.append(os.path.join(os.getcwd(),'python/'))
-
+sys.path.append('/gpfs/home/cj3272/14a/AMATEUR/modeles/LCLCL_ObjectDetection/darknet/python/')
 import darknet as dn
 import pdb
 
-dn.set_gpu(0)
-net = dn.load_net("cfg/yolo-thor.cfg", "/home/pjreddie/backup/yolo-thor_final.weights", 0)
-meta = dn.load_meta("cfg/thor.data")
-r = dn.detect(net, meta, "data/bedroom.jpg")
-print r
+dn.set_gpu(1)
+net = dn.load_net("../cfg/yolo-voc.2.odema.cfg", "../backup/yolo-voc_100.weights", 0)
+meta = dn.load_meta('../data/odema.data')
+#meta = dn.load_meta("/gpfs/home/cj3272/14a/AMATEUR/modeles/LCLCL_ObjectDetection/darknet/data/odema.data")
+#r = dn.detect(net, meta, "data/bedroom.jpg")1
+#print r
 
 # And then down here you could detect a lot more images like:
-r = dn.detect(net, meta, "data/eagle.jpg")
+r = dn.detect(net, meta, "/gpfs/home/cj3272/14a/AMATEUR/modeles/LCLCL_ObjectDetection/darknet/data/eagle.jpg")
 print r
-r = dn.detect(net, meta, "data/giraffe.jpg")
-print r
-r = dn.detect(net, meta, "data/horses.jpg")
-print r
-r = dn.detect(net, meta, "data/person.jpg")
-print r
+#r = dn.detect(net, meta, "data/giraffe.jpg")
+#print r#
+#r = dn.detect(net, meta, "data/horses.jpg")
+#print r
+#r = dn.detect(net, meta, "data/person.jpg")
+#print r
 
