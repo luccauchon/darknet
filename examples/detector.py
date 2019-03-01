@@ -7,21 +7,16 @@ import sys, os
 sys.path.append('/gpfs/home/cj3272/14a/AMATEUR/modeles/LCLCL_ObjectDetection/darknet/python/')
 import darknet as dn
 import pdb
+import time
 
 dn.set_gpu(1)
 net = dn.load_net("../cfg/yolo-voc.2.odema.cfg", "../backup/yolo-voc_100.weights", 0)
 meta = dn.load_meta('../data/odema.data')
-#meta = dn.load_meta("/gpfs/home/cj3272/14a/AMATEUR/modeles/LCLCL_ObjectDetection/darknet/data/odema.data")
-#r = dn.detect(net, meta, "data/bedroom.jpg")1
-#print r
 
-# And then down here you could detect a lot more images like:
-r = dn.detect(net, meta, "/gpfs/home/cj3272/14a/AMATEUR/modeles/LCLCL_ObjectDetection/darknet/data/eagle.jpg")
-print r
-#r = dn.detect(net, meta, "data/giraffe.jpg")
-#print r#
-#r = dn.detect(net, meta, "data/horses.jpg")
-#print r
-#r = dn.detect(net, meta, "data/person.jpg")
-#print r
-
+while (True):
+    start = time.time()
+    r = dn.detect(net, meta, "/gpfs/home/cj3272/14a/AMATEUR/modeles/LCLCL_ObjectDetection/darknet/data/eagle.jpg")
+    for clazz,probability,(x1,y1,x2,y2) in r:
+        pass
+    end = time.time()
+    print(str(end-start))
