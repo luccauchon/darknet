@@ -19,4 +19,4 @@ while (True):
     for clazz,probability,(x1,y1,x2,y2) in r:
         pass
     end = time.time()
-    print(str(end-start))
+    print(str(end-start)+' seconds.')
